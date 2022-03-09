@@ -1,0 +1,14 @@
+{
+  "users":[
+    {"name":"Diego"},
+    {
+      "name":"Roman"
+    }
+  ],
+  "products":[
+    {
+      "name":"agua"
+    },
+    {"name":"vino"}
+  ]
+}

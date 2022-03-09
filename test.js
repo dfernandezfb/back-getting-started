@@ -1,4 +1,9 @@
-saludo = ()=>{
+exports.saludar = () =>{
   return 'Hola'
 }
-module.exports = saludo
+
+// const saludar = () =>{
+//   return 'Hola'
+// }
+
+// module.exports = saludar

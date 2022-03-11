@@ -19,12 +19,17 @@ const express = require('express');
 const app = express();
 const users = require('./routes/users');
 const products = require('./routes/products');
+const {connectDB} = require('./db/db');
 
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+require('dotenv').config();
+connectDB();
 
 app.use('/productos',products)
 app.use('/usuarios',users)
 
-app.listen(4000,()=>{
-  console.log('Estoy escuchando al puerto 4000');
+app.listen(process.env.PORT,()=>{
+  console.log('Estoy escuchando al puerto ' + process.env.PORT);
 })
 

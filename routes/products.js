@@ -4,7 +4,7 @@ const router = Router();
 
 router.get('/', getProducts);
 
-router.post('/', addProduct)
+router.post('/',  addProduct)
 
 router.get('/argentina', getArgentineProducts);
 

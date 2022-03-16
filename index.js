@@ -26,8 +26,8 @@ app.use(express.urlencoded({extended:true}))
 require('dotenv').config();
 connectDB();
 
-app.use('/productos',products)
-app.use('/usuarios',users)
+app.use('/usuarios',users);
+app.use('/productos', products)
 
 app.listen(process.env.PORT,()=>{
   console.log('Estoy escuchando al puerto ' + process.env.PORT);

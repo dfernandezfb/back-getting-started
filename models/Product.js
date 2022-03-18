@@ -15,6 +15,11 @@ const ProductSchema = new Schema({
     type:String,
     required:true,
     trim:true
+  },
+  provider:{
+    type:Schema.Types.ObjectId,
+    ref:'Provider',
+    required:true
   }
 },{
   versionKey:false,

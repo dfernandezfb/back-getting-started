@@ -1,9 +1,13 @@
-const { execMap } = require('nodemon/lib/config/defaults');
 const User = require('./../models/User');
+const bcrypt = require('bcrypt');
 
 exports.getUsers =async (req,res)=>{
   try {
-    const users = await User.find();
+    const users = await User.find().populate({
+      path:'hatedBeer',
+      select:'-_id',
+      populate:'provider'
+    }).populate('likedBeer','-_id');
     res.status(200).json(users)
   } catch (error) {
     console.log(error);
@@ -52,7 +56,12 @@ exports.getYoungUsers = async(req,res)=>{
 
 exports.addUser = async (req,res)=>{
   try {
-    const newUser = new User(req.body);
+    const salt = await bcrypt.genSalt(10);
+    const encryptedPassword = await bcrypt.hash(req.body.password,salt);
+    const newUser = new User({
+      ...req.body,
+      password:encryptedPassword
+    });
     await newUser.save();
     res.status(201).json({msg:'El usuario fue creado correctamente'})
   } catch (error) {
@@ -76,6 +85,20 @@ exports.updateUser = async (req,res) =>{
     const id= req.params.id;
     await User.findByIdAndUpdate(id,{name:'Camila'});
     res.status(200).json({msg:'El usuario fue actualizado correctamente'});
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+exports.login = async (req,res) =>{
+  try {
+    const {email, password} = req.body;
+    const user = await User.findOne({email:email});
+    if(!user){
+      return res.status(404).json({mensaje:'El usuario no existe'});
+    }
+    const result = await bcrypt.compare(password, user.password);
+    res.status(200).json({resultadoEncriptacion: result})
   } catch (error) {
     console.log(error);
   }
